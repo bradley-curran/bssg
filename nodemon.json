@@ -1,0 +1,6 @@
+{
+  "events": {
+    "restart": "clear"
+  },
+  "ext": "json,ts"
+}

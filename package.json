@@ -1,0 +1,25 @@
+{
+  "name": "bssg",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec './build.sh && node --enable-source-maps .'",
+    "build": "./build.sh"
+  },
+  "bin": {
+    "bssg": "./index.js"
+  },
+  "dependencies": {
+    "less": "^4.1.3",
+    "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/less": "^3.0.3",
+    "@types/node": "^18.0.1",
+    "@types/pug": "^2.0.6",
+    "esbuild": "^0.14.48",
+    "nodemon": "^2.0.18",
+    "prettier": "^2.7.1",
+    "typescript": "^4.7.4"
+  }
+}
