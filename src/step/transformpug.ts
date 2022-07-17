@@ -1,5 +1,6 @@
 import { compileFile } from "pug";
 import { readFile, writeFile } from "fs/promises";
+import pretty = require("pretty");
 
 type TransformPugProps = {
   inputFile: string;
@@ -22,7 +23,8 @@ const description = (props: TransformPugProps) => {
 
 const step = async (props: TransformPugProps) => {
   const locals = getLocals(props.localsFile);
-  const output = compileFile(props.inputFile)(locals);
+  const pugOutput = compileFile(props.inputFile)(locals);
+  const output = pretty(pugOutput);
   return writeFile(props.outputFile, output);
 };
 

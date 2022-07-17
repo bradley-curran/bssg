@@ -5,6 +5,7 @@ import cp from "./step/cp";
 import mkdir from "./step/mkdir";
 import rm from "./step/rm";
 import transformless from "./step/transformless";
+import transformmarkdown from "./step/transformmarkdown";
 import transformpug from "./step/transformpug";
 
 const steps: any = {
@@ -12,6 +13,7 @@ const steps: any = {
   mkdir,
   rm,
   transformless,
+  transformmarkdown,
   transformpug,
 };
 
