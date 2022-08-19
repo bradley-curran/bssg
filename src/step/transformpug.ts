@@ -22,7 +22,7 @@ const description = (props: TransformPugProps) => {
 };
 
 const step = async (props: TransformPugProps) => {
-  const locals = getLocals(props.localsFile);
+  const locals = await getLocals(props.localsFile);
   const pugOutput = compileFile(props.inputFile)(locals);
   const output = pretty(pugOutput);
   return writeFile(props.outputFile, output);
