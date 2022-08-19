@@ -18,7 +18,7 @@ const getLocals = async (localsFile?: string) => {
 };
 
 const description = (props: TransformPugProps) => {
-  return `transformpug (locals: ${props.localsFile}, ${props.inputFile} -> ${props.outputFile})`;
+  return `transformpug (localsFile: ${props.localsFile}, ${props.inputFile} -> ${props.outputFile})`;
 };
 
 const step = async (props: TransformPugProps) => {
