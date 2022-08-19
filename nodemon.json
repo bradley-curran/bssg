@@ -2,5 +2,5 @@
   "events": {
     "restart": "clear"
   },
-  "ext": "json,ts"
+  "ext": "json,toml,ts"
 }

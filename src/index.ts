@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { readFile } from "fs/promises";
+import * as toml from "toml";
 
 import cp from "./step/cp";
 import mkdir from "./step/mkdir";
@@ -18,12 +19,19 @@ const steps: any = {
 };
 
 const getBuildConfig = async () => {
-  const buffer = await readFile("bssg.json");
-  return JSON.parse(buffer.toString());
+  const buf = await readFile("bssg.toml");
+  const parsed = toml.parse(buf.toString());
+  const result = JSON.parse(JSON.stringify(parsed));
+
+  if (!result.hasOwnProperty("bssg")) {
+    throw new Error("bssg.toml does not have a 'bssg' top-level key");
+  }
+
+  return result;
 };
 
 const processBuildConfig = async (buildConfig: any) => {
-  for (const buildStep of buildConfig.buildSteps) {
+  for (const buildStep of buildConfig.build.steps) {
     const step = steps[buildStep.step];
     console.log(`start: ${step.description(buildStep)}`);
     await step.step(buildStep);
