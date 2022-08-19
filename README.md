@@ -29,38 +29,35 @@ Install `bssg` using `npm`:
 npm install -g bssg
 ```
 
-`bssg` follows a list of build steps defined in a `bssg.json` file. 
+`bssg` follows a list of build steps defined in a `bssg.toml` file. 
 Each build step has a `step` key to identify the step type. 
 It also has a number of other keys, depending on the `step` type. 
 
-### `bssg.json` Example
+### `bssg.toml` Example
 
-```json
-{
-  "buildSteps": [
-    {
-      "step": "rm",
-      "path": "docs"
-    },
-    {
-      "step": "mkdir",
-      "path": "docs"
-    },
-    {
-      "step": "cp",
-      "inputFile": "CNAME",
-      "outputFile": "docs/CNAME"
-    },
-    {
-      "step": "transformless",
-      "inputFile": "style.less",
-      "outputFile": "docs/style.css"
-    },
-    {
-      "step": "transformpug",
-      "inputFile": "pug/index.pug",
-      "outputFile": "docs/index.html"
-    }
-  ]
-}
+```toml
+[bssg]
+
+[[build.steps]]
+step = "rm"
+path = "docs"
+
+[[build.steps]]
+step = "mkdir"
+path = "docs"
+
+[[build.steps]]
+step = "cp"
+inputFile = "CNAME"
+outputFile = "docs/CNAME"
+
+[[build.steps]]
+step = "transformless"
+inputFile = "style.less"
+outputFile = "docs/style.less"
+
+[[build.steps]]
+step = "transformpug",
+inputFile = "pug/index.pug",
+outputFile = "docs/index.html"
 ```
