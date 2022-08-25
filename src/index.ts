@@ -5,6 +5,7 @@ import * as toml from "toml";
 import cp from "./step/cp";
 import mkdir from "./step/mkdir";
 import rm from "./step/rm";
+import steplist from "./step/steplist";
 import transformless from "./step/transformless";
 import transformmarkdown from "./step/transformmarkdown";
 import transformpug from "./step/transformpug";
@@ -13,6 +14,7 @@ const steps: any = {
   cp,
   mkdir,
   rm,
+  steplist,
   transformless,
   transformmarkdown,
   transformpug,
@@ -31,12 +33,19 @@ const getBuildConfig = async () => {
 };
 
 const processBuildConfig = async (buildConfig: any) => {
-  for (const buildStep of buildConfig.build.steps) {
-    const step = steps[buildStep.step];
-    console.log(`start: ${step.description(buildStep)}`);
-    await step.step(buildStep);
-    console.log(`done:  ${step.description(buildStep)}`);
-  }
+  const runStep = async (stepName: string) => {
+    const stepConfig = buildConfig[stepName];
+
+    if (stepConfig === undefined) {
+      throw new Error(`Could not find step '${stepName}'`);
+    }
+
+    const step = steps[stepConfig.step];
+    console.log(`${stepName}: ${step.description(stepConfig)}`);
+    await step.step(stepConfig, runStep);
+  };
+
+  await runStep("build");
 
   console.log("bssg build complete");
 };
