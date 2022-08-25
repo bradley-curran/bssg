@@ -43,4 +43,4 @@ const processBuildConfig = async (buildConfig: any) => {
 
 getBuildConfig()
   .then(processBuildConfig)
-  .catch((e) => console.log(e));
+  .catch((e) => console.log(e.message));
