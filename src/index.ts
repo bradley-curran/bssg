@@ -6,18 +6,18 @@ import cp from "./step/cp";
 import mkdir from "./step/mkdir";
 import rm from "./step/rm";
 import steplist from "./step/steplist";
-import transformless from "./step/transformless";
-import transformmarkdown from "./step/transformmarkdown";
-import transformpug from "./step/transformpug";
+import lessc from "./step/lessc";
+import markdownc from "./step/markdownc";
+import pugc from "./step/pugc";
 
 const steps: any = {
   cp,
+  lessc,
+  markdownc,
   mkdir,
+  pugc,
   rm,
   steplist,
-  transformless,
-  transformmarkdown,
-  transformpug,
 };
 
 const getBuildConfig = async () => {

@@ -2,7 +2,7 @@ import { compileFile } from "pug";
 import { readFile, writeFile } from "fs/promises";
 import pretty = require("pretty");
 
-type TransformPugProps = {
+type PugCProps = {
   inputFile: string;
   outputFile: string;
   localsFile?: string;
@@ -17,11 +17,11 @@ const getLocals = async (localsFile?: string) => {
   return {};
 };
 
-const description = (props: TransformPugProps) => {
-  return `transformpug (localsFile: ${props.localsFile}, ${props.inputFile} -> ${props.outputFile})`;
+const description = (props: PugCProps) => {
+  return `pugc (localsFile: ${props.localsFile}, ${props.inputFile} -> ${props.outputFile})`;
 };
 
-const step = async (props: TransformPugProps) => {
+const step = async (props: PugCProps) => {
   const locals = await getLocals(props.localsFile);
   const pugOutput = compileFile(props.inputFile)(locals);
   const output = pretty(pugOutput);

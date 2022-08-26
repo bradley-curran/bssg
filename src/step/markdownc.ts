@@ -6,17 +6,17 @@ import rehypeStringify = require("rehype-stringify");
 import { compileFile } from "pug";
 import pretty = require("pretty");
 
-type TransformMarkdownProps = {
+type MarkdownCProps = {
   inputFile: string;
   outputFile: string;
   extends: string;
 };
 
-const description = (props: TransformMarkdownProps) => {
-  return `transformmarkdown (extends: ${props.extends}, ${props.inputFile} -> ${props.outputFile})`;
+const description = (props: MarkdownCProps) => {
+  return `markdownc (extends: ${props.extends}, ${props.inputFile} -> ${props.outputFile})`;
 };
 
-const step = async (props: TransformMarkdownProps) => {
+const step = async (props: MarkdownCProps) => {
   const processor = unified()
     .use(remarkParse)
     .use(remarkRehype)

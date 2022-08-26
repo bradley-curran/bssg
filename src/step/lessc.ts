@@ -1,16 +1,16 @@
 import { readFile, writeFile } from "fs/promises";
 import { render } from "less";
 
-type TransformLessProps = {
+type LessCProps = {
   inputFile: string;
   outputFile: string;
 };
 
-const description = (props: TransformLessProps) => {
-  return `transformless (${props.inputFile} -> ${props.outputFile})`;
+const description = (props: LessCProps) => {
+  return `lessc (${props.inputFile} -> ${props.outputFile})`;
 };
 
-const step = async (props: TransformLessProps) => {
+const step = async (props: LessCProps) => {
   const input = await readFile(props.inputFile);
   const output = await render(input.toString());
   return writeFile(props.outputFile, output.css);
