@@ -1,55 +1,40 @@
 #!/usr/bin/env node
-import { readFile } from "fs/promises";
-import * as toml from "toml";
+import { readFileSync } from "fs";
+import path = require("path/posix");
+const program = require("commander");
 
-import cp from "./step/cp";
-import mkdir from "./step/mkdir";
-import rm from "./step/rm";
-import steplist from "./step/steplist";
-import lessc from "./step/lessc";
-import markdownc from "./step/markdownc";
-import pugc from "./step/pugc";
+import { lessc } from "./command/lessc";
+import { markdownc } from "./command/markdownc";
+import { pugc } from "./command/pugc";
 
-const steps: any = {
-  cp,
-  lessc,
-  markdownc,
-  mkdir,
-  pugc,
-  rm,
-  steplist,
+const packageInfo = () => {
+  const p = path.join(__dirname, "package.json");
+  return JSON.parse(readFileSync(p).toString());
 };
 
-const getBuildConfig = async () => {
-  const buf = await readFile("bssg.toml");
-  const parsed = toml.parse(buf.toString());
-  const result = JSON.parse(JSON.stringify(parsed));
+program
+  .name("bssg")
+  .description("Brad's Static Website Generator")
+  .version(packageInfo().version);
 
-  if (!result.hasOwnProperty("bssg")) {
-    throw new Error("bssg.toml does not have a 'bssg' top-level key");
-  }
+program
+  .command("lessc")
+  .description("compile a less file")
+  .argument("<input-file>", "less file to compile")
+  .action(lessc);
 
-  return result;
-};
+program
+  .command("markdownc")
+  .description("compile a markdown file")
+  .argument("<input-file>", "pug file to inject content into")
+  .argument("[extends-file]", "pug file to extend from")
+  .action(markdownc);
 
-const processBuildConfig = async (buildConfig: any) => {
-  const runStep = async (stepName: string) => {
-    const stepConfig = buildConfig[stepName];
+program
+  .command("pugc")
+  .description("compile a pug file")
+  .argument("<input-file>", "pug file to inject content into")
+  .argument("[locals-file]", "JSON file for locals")
+  .action(pugc);
 
-    if (stepConfig === undefined) {
-      throw new Error(`Could not find step '${stepName}'`);
-    }
-
-    const step = steps[stepConfig.step];
-    console.log(`${stepName}: ${step.description(stepConfig)}`);
-    await step.step(stepConfig, runStep);
-  };
-
-  await runStep("build");
-
-  console.log("bssg build complete");
-};
-
-getBuildConfig()
-  .then(processBuildConfig)
-  .catch((e) => console.log(e.message));
+program.parse();
